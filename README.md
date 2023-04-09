@@ -2,7 +2,7 @@
 
 ## ECS Log Routing by source
 
-application container 에서 raw format log 와 json format log 로 생성하고 firelens log driver 를 이용하여 cloudwatch 의 서로 다른 loggroup 으로 라우팅 
+application container 에서 raw format log 와 json format log 로 생성하고 firelens log driver 를 이용하여 cloudwatch 의 서로 다른 loggroup 으로 라우팅하기 위한 예제
 
 ### [Nginx Config](https://github.com/fromcloud/ecs-fluentbit/nginx/nginx.conf)
 
