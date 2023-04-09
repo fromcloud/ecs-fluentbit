@@ -4,7 +4,7 @@
 
 application container 에서 raw format log 와 json format log 로 생성하고 firelens log driver 를 이용하여 cloudwatch 의 서로 다른 loggroup 으로 라우팅하기 위한 예제
 
-### [Nginx Config](https://github.com/fromcloud/ecs-fluentbit/nginx/nginx.conf)
+### [Nginx Config](https://github.com/fromcloud/ecs-fluentbit/blob/main/nginx/nginx.conf)
 
 ```
 #### raw format 로깅하기 위한 설정
@@ -33,7 +33,7 @@ access_log  /var/log/nginx/access_json.log  json;
 ```    
           
         
-### [Fluentbit firelens.conf](https://github.com/fromcloud/ecs-fluentbit/custom_fluentbit/firelens.conf)
+### [Fluentbit firelens.conf](https://github.com/fromcloud/ecs-fluentbit/blob/main/custom_fluentbit/firelens.conf)
 ```
 [FILTER]
     Name                grep
@@ -70,13 +70,14 @@ access_log  /var/log/nginx/access_json.log  json;
     log_retention_days  30
 ```
 
-### [Custom Fluentbit Config Dockerfile](https://github.com/fromcloud/ecs-fluentbit/custom_fluentbit/Dockerfile)
+### [Custom Fluentbit Config Dockerfile](https://github.com/fromcloud/ecs-fluentbit/blob/main/custom_fluentbit/Dockerfile)
+
 ```
 FROM public.ecr.aws/aws-observability/aws-for-fluent-bit
 COPY firelens.conf /firelens.conf
 ```
 
-### [Nginx Dockerfile](https://github.com/fromcloud/ecs-fluentbit/nginx/Dockerfile)
+### [Nginx Dockerfile](https://github.com/fromcloud/ecs-fluentbit/blob/main/nginx/Dockerfile)
 ```
 FROM nginx
 COPY nginx.conf /etc/nginx/nginx.conf
