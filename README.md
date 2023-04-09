@@ -7,8 +7,9 @@ application container 에서 raw format log 와 json format log 로 생성하고
 ### Nginx 설정
 nginx/nginx.conf 파일 참조
 
-'''
+```
 #### raw format 로깅하기 위한 설정
+
 log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                   '$status $body_bytes_sent "$http_referer" '
                   '"$http_user_agent" "$http_x_forwarded_for"';
@@ -30,11 +31,11 @@ log_format json escape=json
     '}';
 
 access_log  /var/log/nginx/access_json.log  json;
-'''     
+```    
           
         
 ### Fluentbit 설정 (firelens.conf)
-'''
+```
 [FILTER]
     Name                grep
     Match               *-firelens-*
@@ -68,25 +69,25 @@ access_log  /var/log/nginx/access_json.log  json;
     log_stream_prefix   fluentbit-
     auto_create_group   true
     log_retention_days  30
-'''
+```
 
 ### Custom Fluentbit Config Dockerfile
-'''
+```
 FROM public.ecr.aws/aws-observability/aws-for-fluent-bit
 COPY firelens.conf /firelens.conf
-'''
+```
 
 ### Nginx Dockerfile
-'''
+```
 FROM nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN ln -sf /dev/stdout /var/log/nginx/access_main.log && ln -sf /dev/stdout /var/log/nginx/access_json.log
-'''
+```
 
 ### ECS Task 결과 확인
 
 /ecs/main-log cloudwatch log
-'''
+```
 {
   "log": "27.0.3.153 - - [09/Apr/2023:12:44:35 +0000] \"GET / HTTP/1.1\" 304 0 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36\" \"-\"",
   "container_id": "4ff854a23a4b569af2c07066826711a9d5b3041d5857dad147ac7d80a7371b99",
@@ -97,10 +98,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access_main.log && ln -sf /dev/stdout /var
   "ecs_task_arn": "arn:aws:ecs:ap-northeast-1:account-id:task/test-cluster/6cf60188b5e34ab49b98ac9e3a74bb9f",
   "ecs_task_definition": "log-seperate-to-cloudwatch:3"
 }
-'''
+```
 
 /ecs/json-log cloudwatch log
-'''
+```
 {
   "source": "stdout",
   "log": "{
@@ -121,4 +122,4 @@ RUN ln -sf /dev/stdout /var/log/nginx/access_main.log && ln -sf /dev/stdout /var
   "ecs_task_arn": "arn:aws:ecs:ap-northeast-1:account-id:task/test-cluster/6cf60188b5e34ab49b98ac9e3a74bb9f",
   "ecs_task_definition": "log-seperate-to-cloudwatch:3"
 }
-'''
+```
